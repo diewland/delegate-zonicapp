@@ -42,10 +42,10 @@ $('.btn-connect').click(async e => {
   $('.btn-connect').addClass('d-none');
 
   // prepare submit button
-    $('.btn-delegate')
-      .html(TEXT_LOADING)
-      .removeClass('d-none')
-      .addClass('is-disabled');
+  $('.btn-delegate')
+    .html(TEXT_LOADING)
+    .removeClass('d-none')
+    .addClass('is-disabled');
 
   // load contract info (await)
   contract = new ethers.Contract(config.token_addr, CONTRACT_ABI, signer);
@@ -54,6 +54,7 @@ $('.btn-connect').click(async e => {
   let delegated_addr = await contract.getFunction('delegates').staticCall(wallet);
   let k_votes = parseInt(votes) / Math.pow(10, parseInt(dec)+3); // 1_000 -> 3
 
+  // update delegate info
   $('.delegate-info h5').html(`${config.title} ${k_votes.toFixed(2)}K votes`);
 
   // update submit button
