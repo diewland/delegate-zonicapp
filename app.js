@@ -53,9 +53,14 @@ $('.btn-connect').click(async e => {
   let votes = await contract.getFunction('getVotes').staticCall(ZONIC_ADDR);
   let delegated_addr = await contract.getFunction('delegates').staticCall(wallet);
   let k_votes = parseInt(votes) / Math.pow(10, parseInt(dec)+3); // 1_000 -> 3
+  let token_balance = await contract.getFunction('balanceOf').staticCall(wallet);
+  token_balance = parseInt(token_balance) / Math.pow(10, parseInt(dec));
 
   // update delegate info
   $('.delegate-info h5').html(`${config.title} ${k_votes.toFixed(2)}K votes`);
+
+  // update wallet info
+  $('.address').append(`/${token_balance.toFixed(2)} ${config.token}`);
 
   // update submit button
   if (delegated_addr == GENESIS_ADDR) { // not delegate

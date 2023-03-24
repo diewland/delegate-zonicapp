@@ -4,11 +4,13 @@ const CONTRACT_ABI    = [{"inputs":[],"stateMutability":"nonpayable","type":"con
 const CONTRACT_CONFIG = {
   [CHAIN_ID_OP]: { // $OP
     title:      'Optimism',
+    token:      'OP',
     token_addr: '0x4200000000000000000000000000000000000042',
     rpc:        'https://mainnet.optimism.io',
   },
   [CHAIN_ID_ARB]: { // $ARB
     title:      'Arbitrum One',
+    token:      'ARB',
     token_addr: '0x912CE59144191C1204E64559FE8253a0e49E6548',
     rpc:        'https://arb1.arbitrum.io/rpc',
   },
