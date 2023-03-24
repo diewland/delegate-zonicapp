@@ -79,23 +79,21 @@ $('.btn-connect').click(async e => {
   $('.sign-out').removeClass('d-none');
 });
 
-/*
 // claim
-$('.btn-claim').click(e => {
+$('.btn-delegate').click(e => {
   let target = e.target;
   if ($(target).hasClass('is-disabled')) return;
-  if (claim_amount <= 0) return;
   $(target).addClass('is-disabled');
-  contract.getFunction('claim').send()
+  contract.getFunction('delegate').send(ZONIC_ADDR)
     .then(_ => {
-      alert('Claim Success! Check your txn.')
+      $('.btn-delegate').html('Complete');
+      alert('Delegate Success! Check your txn.')
     })
     .catch(e => {
       alert(e);
       $(target).removeClass('is-disabled');
     })
 });
-*/
 
 // sign out
 $('.sign-out').click(_ => {
