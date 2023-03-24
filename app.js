@@ -43,7 +43,7 @@ $('.btn-connect').click(async e => {
 
   // prepare submit button
     $('.btn-delegate')
-      .html('Loading...')
+      .html('...')
       .removeClass('d-none')
       .addClass('is-disabled');
 
