@@ -28,7 +28,7 @@ $('.btn-connect').click(async e => {
 
   // show delegate info
   $('.delegate-info').removeClass('d-none');
-  $('.delegate-info h5').html('...');
+  $('.delegate-info h5').html(TEXT_LOADING);
 
   // hide anon
   $('.anon').addClass('d-none');
@@ -43,7 +43,7 @@ $('.btn-connect').click(async e => {
 
   // prepare submit button
     $('.btn-delegate')
-      .html('...')
+      .html(TEXT_LOADING)
       .removeClass('d-none')
       .addClass('is-disabled');
 
