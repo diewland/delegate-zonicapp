@@ -4,7 +4,7 @@ let provider = null;
 let wallet = null;
 let contract = null;
 
-// functions
+// common
 function short_addr(addr) {
   return addr.substr(0, 5) + '...' + addr.slice(-4);
 }
@@ -26,8 +26,9 @@ $('.btn-connect').click(async e => {
     return;
   }
 
-  // load contract
-  contract = new ethers.Contract(config.token_addr, CONTRACT_ABI, signer);
+  // show delegate info
+  $('.delegate-info').removeClass('d-none');
+  $('.delegate-info h5').html('...');
 
   // hide anon
   $('.anon').addClass('d-none');
@@ -40,45 +41,41 @@ $('.btn-connect').click(async e => {
   // hide connect button
   $('.btn-connect').addClass('d-none');
 
-  // show token info
-  $('.delegate-info').removeClass('d-none');
-  $('.btn-delegate').removeClass('d-none').html('Loading...');
+  // prepare submit button
+    $('.btn-delegate')
+      .html('Loading...')
+      .removeClass('d-none')
+      .addClass('is-disabled');
+
+  // load contract info (await)
+  contract = new ethers.Contract(config.token_addr, CONTRACT_ABI, signer);
   let dec = await contract.decimals();
   let votes = await contract.getFunction('getVotes').staticCall(ZONIC_ADDR);
   let delegated_addr = await contract.getFunction('delegates').staticCall(wallet);
   let k_votes = parseInt(votes) / Math.pow(10, parseInt(dec)+3); // 1_000 -> 3
+
   $('.delegate-info h5').html(`${config.title} ${k_votes.toFixed(2)}K votes`);
 
-  // show delegate button
-  $('.btn-delegate').html('Delegate⚡');
+  // update submit button
   if (delegated_addr == GENESIS_ADDR) { // not delegate
+    $('.btn-delegate')
+      .html('Delegate⚡')
+      .removeClass('is-disabled');
   }
   else if (delegated_addr != ZONIC_ADDR) { // delegated not zonic
+    $('.btn-delegate')
+      .html('Delegate⚡')
+      .removeClass('is-disabled');
     $('.delegate-msg')
-      .removeClass('d-none')
-      .html(`Already delegated ${short_addr(delegated_addr)}`);
+      .html(`You already delegated ${short_addr(delegated_addr)}`)
+      .removeClass('d-none');
   }
   else if (delegated_addr == ZONIC_ADDR) { // delegated zonic
-    $('.btn-delegate')
-      .addClass('is-disabled')
-      .html('Complete');
+    $('.btn-delegate').html('Complete');
   }
 
   // show sign-out button
   $('.sign-out').removeClass('d-none');
-
-  /* TODO
-  // query claim amount
-  $('.btn-claim').text('Checking $ARB...');
-  contract.getFunction('claimableTokens').staticCall(wallet)
-    .then(amount => {
-      claim_amount = parseInt(amount)/1_000_000_000_000_000_000; //18
-      let txt = claim_amount > 0 ? `Claim ${claim_amount} $ARB` : 'No $ARB to claim';
-      $('.btn-claim').text(txt);
-      $('.btn-claim').removeClass('is-disabled');
-    })
-    .catch(e => { alert(e); })
-  */
 });
 
 /*
@@ -97,15 +94,18 @@ $('.btn-claim').click(e => {
       $(target).removeClass('is-disabled');
     })
 });
+*/
 
 // sign out
 $('.sign-out').click(_ => {
+  $('.delegate-info').addClass('d-none');
+  $('.anon').removeClass('d-none');
   $('.address').addClass('d-none');
   $('.btn-connect').removeClass('d-none');
-  $('.btn-claim').addClass('d-none');
+  $('.delegate-msg').addClass('d-none');
+  $('.btn-delegate').addClass('d-none');
   $('.sign-out').addClass('d-none');
 });
-*/
 
 // metamask events
 window.ethereum.on('accountsChanged', function (accounts) {
