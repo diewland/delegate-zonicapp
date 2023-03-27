@@ -44,5 +44,15 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src='./config.js'></script>
     <script src='./app.js'></script>
+    <script>
+      init(chain_id => {
+        config = CONTRACT_CONFIG[chain_id];
+        if (!config) {
+          alert('Switch network to [Optimism] or [Arbitrum One]');
+          return false;
+        }
+        return true;
+      });
+    </script>
   </body>
 </html>
