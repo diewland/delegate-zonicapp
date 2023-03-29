@@ -122,3 +122,17 @@ function init(validate_chain) {
   });
 
 }
+function init_chain(chain_id) {
+  config = CONTRACT_CONFIG[chain_id];
+  if (!config) {
+    alert(`Not support Chain ID ${chain_id}`)
+    return;
+  }
+  init(cur_chain_id => {
+    if (cur_chain_id != chain_id) {
+      alert(`Switch network to [${config.title}]`);
+      return false;
+    }
+    return true;
+  });
+}
